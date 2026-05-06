@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal's Mart</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══ AUTH OVERLAY ═══ -->
+<div id="authOverlay">
+  <div class="auth-wrap">
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <div class="auth-left-content">
+        <div class="auth-logo">Deal's Mart <span style="-webkit-text-fill-color:rgba(255,255,255,0.6);font-size:0.65rem;letter-spacing:2px">AI</span></div>
+        <h2>Find the <em>Smartest</em><br>Deal Every Time</h2>
+        <p>Compare prices across 9 major platforms in real-time. Sign up free and never overpay again.</p>
+      </div>
+      <div class="auth-features">
+        <div class="auth-feature"><span class="auth-feature-icon">⚡</span> Real-time comparison across Amazon, Flipkart & 7 more</div>
+        <div class="auth-feature"><span class="auth-feature-icon">🤖</span> AI-powered deal recommendations</div>
+        <div class="auth-feature"><span class="auth-feature-icon">🔔</span> Price drop alerts for your wishlist</div>
+        <div class="auth-feature"><span class="auth-feature-icon">💰</span> Average savings of ₹430 per purchase</div>
+      </div>
+      <br>
+      <div class="auth-left-footer">© 2026 Deal's Mart — AI Shopping</div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+        <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="auth-success" id="authSuccess">
+        <div class="success-icon">✓</div>
+        <h3 id="successTitle">Welcome back!</h3>
+        <p id="successMsg">Redirecting to DealRadar…</p>
+      </div>
+
+      <div class="auth-form" id="authForms">
+        <!-- LOGIN FORM -->
+        <div class="auth-form-panel active" id="loginPanel">
+          <div class="form-group">
+            <label class="form-label">Email address</label>
+            <input class="form-input" id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+            <span class="form-error" id="loginEmailErr">Please enter a valid email.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrap">
+              <input class="form-input" id="loginPassword" type="password" placeholder="Your password" autocomplete="current-password" />
+              <button class="input-toggle" type="button" onclick="togglePwd('loginPassword',this)">👁</button>
+            </div>
+            <span class="form-error" id="loginPasswordErr">Password is required.</span>
+          </div>
+          <span class="form-error" id="loginGeneralErr" style="margin-top:-4px;font-size:0.82rem"></span>
+          <button class="auth-btn" id="loginBtn" onclick="doLogin()">
+            <span class="btn-text">Sign In →</span>
+            <div class="btn-spinner"></div>
+          </button>
+          <div class="auth-switch">Don't have an account? <span onclick="switchTab('signup')">Create one free</span></div>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div class="auth-form-panel" id="signupPanel">
+          <div class="form-group">
+            <label class="form-label">Full name</label>
+            <input class="form-input" id="signupName" type="text" placeholder="Rahul Sharma" autocomplete="name" />
+            <span class="form-error" id="signupNameErr">Name must be at least 2 characters.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email address</label>
+            <input class="form-input" id="signupEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+            <span class="form-error" id="signupEmailErr">Please enter a valid email.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrap">
+              <input class="form-input" id="signupPassword" type="password" placeholder="Min. 6 characters" oninput="checkStrength(this.value)" autocomplete="new-password" />
+              <button class="input-toggle" type="button" onclick="togglePwd('signupPassword',this)">👁</button>
+            </div>
+            <div class="form-strength">
+              <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+              <div class="strength-label" id="strengthLabel"></div>
+            </div>
+            <span class="form-error" id="signupPasswordErr">Password must be at least 6 characters.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm password</label>
+            <div class="input-wrap">
+              <input class="form-input" id="signupConfirm" type="password" placeholder="Repeat password" autocomplete="new-password" />
+              <button class="input-toggle" type="button" onclick="togglePwd('signupConfirm',this)">👁</button>
+            </div>
+            <span class="form-error" id="signupConfirmErr">Passwords do not match.</span>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="agreeTerms" />
+            <label for="agreeTerms">I agree to the <span style="color:var(--accent)">Terms of Service</span> and <span style="color:var(--accent)">Privacy Policy</span></label>
+          </div>
+          <span class="form-error" id="signupGeneralErr" style="margin-top:-4px;font-size:0.82rem"></span>
+          <button class="auth-btn" id="signupBtn" onclick="doSignup()">
+            <span class="btn-text">Create Account →</span>
+            <div class="btn-spinner"></div>
+          </button>
+          <div class="auth-switch">Already have an account? <span onclick="switchTab('login')">Sign in</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-top">
+    <div class="logo" onclick="goHome()">Deal<span style="-webkit-text-fill-color:var(--text)">Smart</span> <span class="nav-badge">AI</span></div>
+    <div class="nav-search-mini" onclick="document.getElementById('searchInput').focus(); window.scrollTo({top:200,behavior:'smooth'})">
+      🔍 &nbsp; Search products...
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" onclick="goHome(); return false;">🏠 Home</a></li>
+      <li><a href="#" onclick="showSection('compare'); return false;">📊 Compare</a></li>
+      <li><a href="#" onclick="showSection('deals'); return false;">🔥 Deals</a></li>
+      <li><a href="#" onclick="showSection('alerts'); return false;">🔔 Alerts</a></li>
+      <li>
+        <div class="user-menu-wrap">
+          <div class="user-avatar" id="userAvatar" onclick="toggleUserMenu()">?</div>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-info-row">
+              <div class="user-info-name" id="dropdownName">—</div>
+              <div class="user-info-email" id="dropdownEmail">—</div>
+            </div>
+            <div class="dropdown-item">👤 My Profile</div>
+            <div class="dropdown-item">🔔 Price Alerts</div>
+            <div class="dropdown-item">❤️ Wishlist</div>
+            <div class="dropdown-item danger" onclick="doLogout()">🚪 Sign Out</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </div>
+  <div class="nav-bottom">
+    <button class="nav-cat-btn active" onclick="navCatClick(this,'all')">⚡ All Deals</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'smartphones')">📱 Smartphones</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'laptops')">💻 Laptops</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'fashion')">👗 Fashion</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'appliances')">📺 Appliances</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'footwear')">👟 Footwear</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'books')">📚 Books</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'beauty')">💄 Beauty</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'sports')">🏋️ Sports</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'kitchen')">🍳 Kitchen</button>
+    <button class="nav-cat-btn" onclick="navCatClick(this,'toys')">🧸 Toys</button>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero" id="heroSection">
+    <div class="hero-tag">Compare Smart. Shop Better</div>
+    <h1>Compare <em>Every Deal</em><br>Across All Platforms</h1>
+    <p>Get real-time price comparisons from Amazon, Flipkart, Myntra, Meesho & more — with AI recommendations that find you the smartest buy.</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-section" id="searchSection">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search iPhone 15, Nike Air Max, Samsung TV, OnePlus..." autocomplete="off" />
+      <button id="searchBtn" onclick="handleSearch()">🔍 Compare Now</button>
+    </div>
+    <div class="platforms-row" id="platformFilters">
+      <div class="platform-chip active" onclick="togglePlatform(this,'all')"><span class="platform-dot" style="background:#ff6b35"></span> All</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'amazon')"><span class="platform-dot" style="background:#FF9900"></span> Amazon</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'flipkart')"><span class="platform-dot" style="background:#2874F0"></span> Flipkart</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'myntra')"><span class="platform-dot" style="background:#FF3F6C"></span> Myntra</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'meesho')"><span class="platform-dot" style="background:#9C27B0"></span> Meesho</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'snapdeal')"><span class="platform-dot" style="background:#E40026"></span> Snapdeal</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'jiomart')"><span class="platform-dot" style="background:#0A4FE8"></span> JioMart</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'croma')"><span class="platform-dot" style="background:#00A651"></span> Croma</div>
+      <div class="platform-chip" onclick="togglePlatform(this,'reliance')"><span class="platform-dot" style="background:#004B9B"></span> Reliance</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-card"><div class="stat-num">9+</div><div class="stat-label">Shopping Platforms</div></div>
+    <div class="stat-card"><div class="stat-num">5M+</div><div class="stat-label">Products Tracked</div></div>
+    <div class="stat-card"><div class="stat-num">₹430</div><div class="stat-label">Avg. Savings / Purchase</div></div>
+    <div class="stat-card"><div class="stat-num">98%</div><div class="stat-label">Accuracy Rate</div></div>
+  </div>
+
+  <!-- DYNAMIC RESULTS AREA -->
+  <div id="resultsArea"></div>
+
+  <!-- CATEGORIES -->
+  <div class="categories" id="categoriesSection">
+    <div class="section-header">
+      <div>
+        <div class="section-label">🗂 Browse by Category</div>
+        <h2>What are you shopping for?</h2>
+      </div>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-item" id="cat-smartphones" onclick="loadCategory('smartphones')"><span class="cat-icon">📱</span><span class="cat-name">Smartphones</span></div>
+      <div class="cat-item" id="cat-laptops" onclick="loadCategory('laptops')"><span class="cat-icon">💻</span><span class="cat-name">Laptops</span></div>
+      <div class="cat-item" id="cat-fashion" onclick="loadCategory('fashion')"><span class="cat-icon">👗</span><span class="cat-name">Fashion</span></div>
+      <div class="cat-item" id="cat-appliances" onclick="loadCategory('appliances')"><span class="cat-icon">📺</span><span class="cat-name">Appliances</span></div>
+      <div class="cat-item" id="cat-footwear" onclick="loadCategory('footwear')"><span class="cat-icon">👟</span><span class="cat-name">Footwear</span></div>
+      <div class="cat-item" id="cat-books" onclick="loadCategory('books')"><span class="cat-icon">📚</span><span class="cat-name">Books</span></div>
+      <div class="cat-item" id="cat-beauty" onclick="loadCategory('beauty')"><span class="cat-icon">💄</span><span class="cat-name">Beauty</span></div>
+      <div class="cat-item" id="cat-sports" onclick="loadCategory('sports')"><span class="cat-icon">🏋️</span><span class="cat-name">Sports</span></div>
+      <div class="cat-item" id="cat-kitchen" onclick="loadCategory('kitchen')"><span class="cat-icon">🍳</span><span class="cat-name">Kitchen</span></div>
+      <div class="cat-item" id="cat-toys" onclick="loadCategory('toys')"><span class="cat-icon">🧸</span><span class="cat-name">Toys</span></div>
+      <div class="cat-item" id="cat-audio" onclick="loadCategory('audio')"><span class="cat-icon">🎧</span><span class="cat-name">Audio</span></div>
+      <div class="cat-item" id="cat-cameras" onclick="loadCategory('cameras')"><span class="cat-icon">📷</span><span class="cat-name">Cameras</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Deal's Mart — AI-Shopping Comparison. Prices Updated In Real-time.</p>
+    <p style="margin-top:8px"><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Affiliate Disclosure</a> · <a href="#">Contact</a></p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <h2>📊 Full Comparison View</h2>
+    <p>Detailed side-by-side comparison with full spec breakdown, price history charts, and user sentiment analysis from all 9 platforms.</p>
+    <p>In a real deployment, this pulls live data from Amazon, Flipkart, Myntra, Meesho, Snapdeal, JioMart, Croma, Reliance Digital & more APIs.</p>
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
